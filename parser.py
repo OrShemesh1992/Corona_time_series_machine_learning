@@ -32,19 +32,19 @@ def reader(path_name_csv):
 
 
 def init_start():
-    g = input("Enter 1 for deaths or 2 for confirmed from covid-19 : ") 
+    g = input("Enter 1 for deaths or 2 for confirmed from covid-19 : ")
 
     if g == '1' :
         deaths = reader("dataset/covid_19_deaths.csv")
-        country = input("Which contry (the first letter in uppercase): ")
+        country = input("Which country (the first letter in uppercase): ")
         for i in deaths :
             if i.country == country :
                 lists=zip(deaths[0].dates , per_day(i.dates))
         writer(list(lists))
 
     elif g == '2' :
-        confirmed = reader("dataset/covid_19_confirmed.csv")    
-        country = input("Which contry (the first letter in uppercase): ")
+        confirmed = reader("dataset/covid_19_confirmed.csv")
+        country = input("Which country (the first letter in uppercase): ")
         for i in confirmed :
             if i.country == country :
                 lists=zip(confirmed[0].dates , per_day(i.dates))
@@ -52,7 +52,7 @@ def init_start():
 
     else :
         print("wrong input, try again...")
-        
+
 
 def per_day(list_data):
     int_data = [int(item) for item in list_data]
@@ -62,6 +62,8 @@ def per_day(list_data):
 def writer(list_pairs):
     with open('dataset/chosenCountry.csv', 'w', newline='') as file:
         writer = csv.writer(file)
-        for x in list_pairs :
-            writer.writerow([x[0],int(x[1])])
-            
+        for i,x in enumerate(list_pairs) :
+            if i==0:
+                writer.writerow(['Day','deaths_confirmed'])
+            else:
+                writer.writerow([x[0],int(x[1])])
