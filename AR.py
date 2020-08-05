@@ -8,6 +8,7 @@ import datetime
 import warnings
 from parser import init_start
 from statsmodels.tsa.ar_model import AR
+from score import mean_absolute_percentage_error
 
 #read and choose country from corona file
 init_start()
@@ -30,6 +31,9 @@ fit1 = model.fit()
 y_hat = test.copy()
 # Forecast for the next 30 Days
 y_hat['Forecast'] = fit1.predict(start=len(train), end=len(train)+len(test)-1 + 30, dynamic=False)
+
+#mean absolute percentage error
+print("mean absolute percentage error: " , mean_absolute_percentage_error(test.deaths_confirmed, y_hat.Forecast),"%")
 
 #Plotting data
 plt.figure(figsize=(12,8))

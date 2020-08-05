@@ -12,6 +12,7 @@ from pmdarima import auto_arima
 from statsmodels.tsa.statespace.sarimax import SARIMAX
 from sklearn.metrics import mean_squared_error
 from statsmodels.tools.eval_measures import rmse
+from score import mean_absolute_percentage_error
 
 #read and choose country from corona file
 init_start()
@@ -45,6 +46,9 @@ result = model.fit()
 predictions = result.predict(len(train), len(train) + len(test) - 1,
                              typ = 'levels').rename("Predictions")
 
+#mean absolute percentage error
+print("mean absolute percentage error: " , mean_absolute_percentage_error(test["deaths_confirmed"], predictions),"%")
+
 # plot predictions
 predictions.plot(legend = True)
 
@@ -58,6 +62,7 @@ result = model.fit()
 forecast = result.predict(start = len(corona),
                           end = (len(corona)-1) + 30,
                           typ = 'levels').rename('Forecast')
+
 
 # Plot the forecast values
 corona['deaths_confirmed'].plot(figsize = (30, 5), legend = True)

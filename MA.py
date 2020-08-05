@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import datetime
 import warnings
 from parser import init_start
+from score import mean_absolute_percentage_error
 
 #read and choose country from corona file
 init_start()
@@ -28,6 +29,9 @@ y_hat = test.copy()
 
 # Create Moving Average from last 60 periods
 y_hat['Forecast'] = train['deaths_confirmed'].rolling(60).mean().iloc[-1]
+
+#mean absolute percentage error
+print("mean absolute percentage error: " , mean_absolute_percentage_error(test.deaths_confirmed, y_hat.Forecast),"%")
 
 #Plotting data
 plt.figure(figsize=(12,8))
